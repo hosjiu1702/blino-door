@@ -9,11 +9,11 @@ Controlling my rolling door with Android + Arduino
 
 ___
 #### Some images from this project
-![](https://imgur.com/I7W31RA)
+![](https://i.imgur.com/I7W31RA.jpg)
 
-![](https://imgur.com/GrEQBNs)
+![](https://i.imgur.com/GrEQBNs.jpg)
 
 
-![](https://imgur.com/I2FMUUD)
+![](https://i.imgur.com/I2FMUUD.jpg)
 
-![](https://imgur.com/3221HCY)
+![](https://i.imgur.com/3221HCY.jpg)
