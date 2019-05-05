@@ -57,7 +57,6 @@ void initRelay()
 void trigSignal(byte pin)
 {
   digitalWrite(pin, HIGH);
-  delay(10);
+  delay(250);
   digitalWrite(pin, LOW);
 }
-
