@@ -29,6 +29,10 @@ public class SoundManager {
     private int closeDoorSoundId;
     private int closeDoorStreamId;
 
+    private int stopDoorResId = R.raw.stop_door;
+    private int stopDoorSoundId;
+    private int stopDoorStreamId;
+
     private SoundPool mSoundPool = null;
     private AudioAttributes audioAttributes = null;
 
@@ -60,6 +64,7 @@ public class SoundManager {
         invitingSoundId = mSoundPool.load(mContext, invitingResId, 1);
         openDoorSoundId = mSoundPool.load(mContext, openDoorResId, 1);
         closeDoorSoundId = mSoundPool.load(mContext, closeDoorResId, 1);
+        stopDoorSoundId = mSoundPool.load(mContext, stopDoorResId, 1);
     }
 
     public int playConnectSound(){
@@ -127,6 +132,19 @@ public class SoundManager {
         return closeDoorStreamId;
     }
 
+    public int playStopDoorSound(){
+        if(isLoaded){
+            stopDoorStreamId = mSoundPool.play(
+                    stopDoorSoundId,
+                    1.0f,
+                    1.0f,
+                    1,
+                    0,
+                    1.0f);
+        }
+        return stopDoorStreamId;
+    }
+
     public void pauseConnectingSound() {
         mSoundPool.pause(connectingStreamId);
     }
@@ -137,6 +155,10 @@ public class SoundManager {
 
     public void stopCloseDoorSound() {
         mSoundPool.stop(closeDoorStreamId);
+    }
+
+    public void stopStopDoorSound() {
+        mSoundPool.stop(stopDoorStreamId);
     }
 
     public void pauseFinishSound() {

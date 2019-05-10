@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStop.setOnClickListener(this);
         btnDown.setOnClickListener(this);
 
-        mSoundManager = new SoundManager(5, MainActivity.this);
+        mSoundManager = new SoundManager(6, MainActivity.this);
 
         // Kiem tra Bluetooth module co available tren thiet bi hay khong
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -178,17 +178,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(btModule_.bluetoothSocket != null){
             try {
+                /* Android phone gui du lieu cho arduino promini */
                 OutputStream outputStream = btModule_.bluetoothSocket.getOutputStream();
                 outputStream.write(data.toString().getBytes());
+
+                /* Phat am thanh khi nhan nut */
                 switch (data) {
                     case UP:
+                        mSoundManager.stopStopDoorSound();
                         mSoundManager.stopCloseDoorSound();
+
                         mSoundManager.playOpenDoorSound();
                         break;
                     case STOP:
+                        mSoundManager.stopOpenDoorSound();
+                        mSoundManager.stopCloseDoorSound();
+
+                        mSoundManager.playStopDoorSound();
                         break;
                     case DOWN:
+                        mSoundManager.stopStopDoorSound();
                         mSoundManager.stopOpenDoorSound();
+
                         mSoundManager.playCloseDoorSound();
                         break;
                 }
