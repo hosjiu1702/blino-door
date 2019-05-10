@@ -1,37 +1,45 @@
 package com.example.hosjiu.blinoapp;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.content.Intent;
+import android.media.SoundPool;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.UUID;
 
-import com.example.hosjiu.blinoapp.MainActivity;
-
 /**
- * Created by giahu on 3/29/2018.
+ * Created by hosjiu on 3/29/2018.
+ * Updated 1: by hosjiu on 8/05/2019.
  */
 
-public class Connecting extends AsyncTask<Void, Void, Void>{
+public class Connecting extends AsyncTask<Void, Void, Void> {
+
     private final String HC05_MAC_ADDRESS = "98:D3:31:F4:12:EE";
     private final String BluetoothUUID = "00001101-0000-1000-8000-00805F9B34FB";
     private UUID clientUUID = UUID.fromString(BluetoothUUID);
 
-    private BluetoothAdapter bluetoothAdapter;
+    // private BluetoothAdapter bluetoothAdapter;
     public BluetoothDevice HC05;
     public BluetoothSocket bluetoothSocket = null;
 
-    private boolean isConnect = true;
+    private boolean isConnected = false;
+
+    private Context mContext;
+
+    //public SoundManager mSoundManager;
+    private boolean isPlaying = false;
+
+    // Constructor
+    public Connecting(Context context) {
+        mContext = context;
+        // mSoundManager = new SoundManager(5, mContext);
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -41,29 +49,37 @@ public class Connecting extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... voids) {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        /*
+        MainActivity.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        */
+
         //Get paired device using MAC address
-        HC05 = bluetoothAdapter.getRemoteDevice(HC05_MAC_ADDRESS);
-        //Create RFCOMM channel using UUID
-        try{
+        HC05 = MainActivity.bluetoothAdapter.getRemoteDevice(HC05_MAC_ADDRESS);
+
+        // Create RFCOMM channel using UUID
+        //  And return a bluetooth socket for outgoing connection
+        try {
             bluetoothSocket = HC05.createRfcommSocketToServiceRecord(clientUUID);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Creating RFCOMM channel is unsuccessful");
         }
-        //Connecting to the HC05 device
-        try{
-            if(bluetoothSocket != null)
-            {
-                bluetoothSocket.connect();
 
+         MainActivity.mSoundManager.playConnectSound();
+
+        // Connecting to the HC05 device.
+        // Reconnecting until the process is successful.
+        while (!isConnected) {
+            if (bluetoothSocket != null) {
+                try {
+                    bluetoothSocket.connect();
+                    isConnected = true;
+                    isPlaying = false;
+                    MainActivity.mSoundManager.pauseConnectingSound();
+                } catch (IOException e) {
+                    Log.d("bluetoothSocket connect()", "Connecting to the HC05 failed.");
+                    Log.d("bluetoothSocket connect()", "It is being reconnected.");
+                }
             }
-            else
-            {
-                System.out.println("bluetoothSocket is a null variable");
-            }
-        } catch (IOException e){
-            System.out.println("Connecting to the HC05 is unsuccessful");
-            isConnect = false;
         }
 
         return null;
@@ -78,9 +94,11 @@ public class Connecting extends AsyncTask<Void, Void, Void>{
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-        if(isConnect){
+        if(isConnected){
             MainActivity.container.setVisibility(View.VISIBLE);
             MainActivity.progressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(mContext, "Đã kết nối thành công.", Toast.LENGTH_SHORT).show();
+            MainActivity.mSoundManager.playFinishSound();
         }
     }
 }

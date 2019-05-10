@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.example.hosjiu.blinoapp.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -17,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
     </LinearLayout>
 
     <LinearLayout
@@ -44,8 +46,8 @@
                 android:layout_height="59dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/ic_arrow_upward_black_8dp"
-                android:backgroundTint="#FF867F82"/>
+                android:foreground="@drawable/ic_arrow_upward_black_8dp"
+                android:foregroundTint="#F97609" />
 
             <Button
                 android:id="@+id/btnStop"
@@ -53,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:background="@drawable/ic_more_horiz_black_24dp"
-                android:backgroundTint="#FF867F82"/>
+                android:foreground="@drawable/ic_more_horiz_black_24dp"
+                android:foregroundTint="#F97609" />
 
             <Button
                 android:id="@+id/btnDown"
@@ -63,12 +65,13 @@
                 android:layout_height="59dp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/ic_arrow_downward_black_8dp"
-                android:backgroundTint="#FF867F82"/>
+                android:foreground="@drawable/ic_arrow_downward_black_8dp"
+                android:foregroundTint="#F97609" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -76,13 +79,12 @@
 
             <Button
                 android:id="@+id/btnConnect"
-                android:layout_width="147dp"
-                android:layout_height="90dp"
+                android:layout_width="111dp"
+                android:layout_height="114dp"
                 android:layout_gravity="center"
-                android:background="#4033b5e5"
-                android:text="KẾT NỐI"
-                android:textColor="#17202a"
-                android:textSize="20dp" />
+                android:backgroundTint="#F97609"
+                android:foreground="@drawable/ic_connect_foreground"
+                android:foregroundTint="#450224" />
         </LinearLayout>
 
     </LinearLayout>
